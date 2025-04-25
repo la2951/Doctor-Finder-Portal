@@ -10,11 +10,16 @@ const Home = () => {
 
   const doctorsPerPage = 3;
 
+  const specialties = [...new Set(doctors.map(doc => doc.specialty))];
+
   const filteredDoctors = doctors.filter((doc) => {
-    const matchesSearch = doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           doc.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           doc.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doc.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doc.location.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesSpecialty = specialtyFilter ? doc.specialty === specialtyFilter : true;
+
     return matchesSearch && matchesSpecialty;
   });
 
@@ -22,12 +27,11 @@ const Home = () => {
     if (sortBy === "name") {
       return a.name.localeCompare(b.name);
     } else if (sortBy === "experience") {
-
-      const expA = parseInt(a.experience);
-      const expB = parseInt(b.experience);
+      const expA = parseInt(a.experience.replace(/\D/g, ""), 10) || 0;
+      const expB = parseInt(b.experience.replace(/\D/g, ""), 10) || 0;
       return expB - expA;
     }
-    return 0;
+    return 0; // No sorting
   });
 
   const totalPages = Math.ceil(sortedDoctors.length / doctorsPerPage);
@@ -39,15 +43,13 @@ const Home = () => {
     setCurrentPage(pageNumber);
   };
 
-  const specialties = [...new Set(doctors.map(doc => doc.specialty))];
-
   return (
-    <div>
-      <h1>Our Doctors</h1>
+    <div style={{ padding: '20px' }}>
+      <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Our Doctors</h1>
 
       {/* Filters */}
-      <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-        {/* Search Bar */}
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        {/* Search */}
         <input
           type="text"
           placeholder="Search by name, specialty, or location"
@@ -62,7 +64,7 @@ const Home = () => {
             borderRadius: '8px',
             border: '1px solid #ccc',
             marginRight: '10px',
-            fontSize: '16px'
+            fontSize: '16px',
           }}
         />
 
@@ -78,7 +80,7 @@ const Home = () => {
             borderRadius: '8px',
             border: '1px solid #ccc',
             marginRight: '10px',
-            fontSize: '16px'
+            fontSize: '16px',
           }}
         >
           <option value="">All Specialties</option>
@@ -87,15 +89,18 @@ const Home = () => {
           ))}
         </select>
 
-        {/* Sort By */}
+        {/* Sort */}
         <select
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
+          onChange={(e) => {
+            setSortBy(e.target.value);
+            setCurrentPage(1);
+          }}
           style={{
             padding: '10px',
             borderRadius: '8px',
             border: '1px solid #ccc',
-            fontSize: '16px'
+            fontSize: '16px',
           }}
         >
           <option value="">Sort By</option>
@@ -105,7 +110,7 @@ const Home = () => {
       </div>
 
       {/* Doctor Cards */}
-      <div className="container">
+      <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem' }}>
         {currentDoctors.length > 0 ? (
           currentDoctors.map((doc) => (
             <DoctorCard key={doc.id} doctor={doc} />
@@ -115,8 +120,8 @@ const Home = () => {
         )}
       </div>
 
-      {/* Pagination Controls */}
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      {/* Pagination */}
+      <div style={{ textAlign: 'center', marginTop: '2rem' }}>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
@@ -128,6 +133,7 @@ const Home = () => {
               border: currentPage === page ? '2px solid #4caf50' : '1px solid #ccc',
               backgroundColor: currentPage === page ? '#4caf50' : '#fff',
               color: currentPage === page ? '#fff' : '#000',
+              fontWeight: currentPage === page ? 'bold' : 'normal',
               cursor: 'pointer'
             }}
           >
@@ -140,5 +146,6 @@ const Home = () => {
 };
 
 export default Home;
+
 
 

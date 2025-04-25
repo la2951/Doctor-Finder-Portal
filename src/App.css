@@ -1,6 +1,6 @@
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f2f4f8;
+    background-color: #f0f8ff; /* Light Blue Background */
     margin: 0;
     padding: 0;
   }
@@ -8,7 +8,7 @@ body {
   h1 {
     text-align: center;
     margin-top: 2rem;
-    color: #333;
+    color: #2e8b57; /* SeaGreen */
   }
   
   .container {
@@ -16,29 +16,55 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     padding: 2rem;
+    gap: 1.5rem;
   }
   
   .card {
-    background-color: white;
-    width: 250px;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    width: 270px;
     margin: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .card:hover {
-    transform: scale(1.03);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
   }
   
   .card h2 {
     margin: 0 0 10px;
-    color: #0056b3;
+    color: #00796b; /* Teal Darker */
+    font-size: 20px;
   }
   
   .card p {
     margin: 6px 0;
-    font-size: 14px;
+    font-size: 15px;
+  }
+  
+  button {
+    background-color: #4caf50;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #388e3c;
+  }
+  
+  select, input[type="text"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin: 0 5px;
   }
   
